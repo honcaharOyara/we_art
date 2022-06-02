@@ -1,0 +1,53 @@
+@import "vars";
+
+@function rem($val) {
+  @return calc($val / $base-font) * 1rem;
+}
+
+@mixin media-down($media) {
+  @if $media == sm {
+    @media (max-width: $sm) {
+      @content;
+    }
+  } @else if $media == md {
+    @media (max-width: $md) {
+      @content;
+    }
+  } @else if $media == lg {
+    @media (max-width: $lg) {
+      @content;
+    }
+  } @else if $media == xl {
+    @media (max-width: $xl) {
+      @content;
+    }
+  } @else if $media == xxl {
+    @media (max-width: $xxl) {
+      @content;
+    }
+  }
+}
+
+@mixin media-up($media) {
+  @if $media == sm {
+    @media (min-width: $sm) {
+      @content;
+    }
+  } @else if $media == md {
+    @media (min-width: $md) {
+      @content;
+    }
+  } @else if $media == lg {
+    @media (min-width: $lg) {
+      @content;
+    }
+  } @else if $media == xl {
+    @media (min-width: $xl) {
+      @content;
+    }
+  } @else if $media == xxl {
+    @media (min-width: $xxl) {
+      @content;
+    }
+  }
+}
