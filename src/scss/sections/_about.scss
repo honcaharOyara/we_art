@@ -1,0 +1,41 @@
+@import "../vars";
+@import "../func-mixins";
+
+.about {
+  padding: 60px 0;
+  background-color: $about-section-bg;
+
+  &__content {
+    max-width: 750px;
+    width: 100%;
+    margin: 0 auto;
+
+    >.section-title {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    >p {
+      margin-bottom: 30px;
+    }
+  }
+
+  &__read-more-btn {
+    display: none;
+    margin: 0 auto;
+    width: fit-content;
+    font-size: rem(14px);
+    line-height: rem(17px);
+    letter-spacing: rem(1px);
+    text-transform: uppercase;
+    border-bottom: 1px dashed $base-text-color;
+
+    &.show {
+      display: block;
+    }
+
+    &:hover {
+      border-color: $about-section-bg;
+    }
+  }
+}

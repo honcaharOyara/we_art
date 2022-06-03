@@ -1,0 +1,16 @@
+@import "vars";
+@import "func-mixins";
+
+@import "fonts";
+@import "null-style";
+@import "common-styles";
+
+@import "components/block-social-links";
+@import "components/bock-lang";
+@import "components/burger";
+
+@import "sections/header";
+@import "sections/banner";
+@import "sections/new-projects";
+@import "sections/about";
+@import "sections/footer";

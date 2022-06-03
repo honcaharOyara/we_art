@@ -1,0 +1,43 @@
+.social-list {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  .social-link {
+    svg {
+      transition: fill .2s ease;
+    }
+  }
+
+  &.--dark {
+    .social-link {
+      svg {
+        fill: $social-icon-dark-color;
+      }
+    }
+
+    .social-link {
+      svg {
+        &:hover {
+          fill: $social-icon-dark-color-hover;
+        }
+      }
+    }
+  }
+
+  &.--light {
+    .social-link {
+      svg {
+        fill: $social-icon-light-color;
+      }
+    }
+
+    .social-link {
+      svg {
+        &:hover {
+          fill: $social-icon-light-color-hover;
+        }
+      }
+    }
+  }
+}

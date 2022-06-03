@@ -1,0 +1,33 @@
+@import '../vars';
+@import '../func-mixins';
+
+.burger-menu {
+  padding: 120px 0 0 50px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  z-index: 150;
+  max-width: 375px;
+  background-color: $white;
+  transition: all .2s ease;
+
+  &.active {
+    left: 0;
+  }
+
+  &__nav-item {
+    margin-bottom: 20px;
+  }
+
+  &__nav-link {
+    font-size: rem(18px);
+    line-height: rem(26px);
+  }
+
+  &__nav-list,
+  .social-list {
+    margin-bottom: 30px;
+  }
+}

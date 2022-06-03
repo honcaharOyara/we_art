@@ -1,0 +1,71 @@
+@import "vars";
+@import "func-mixins";
+
+html {
+  font-family: "CenturyGothic", sans-serif;
+  font-size: $base-font;
+  font-weight: $base-font-weight;
+  line-height: $base-line-height;
+  color: $base-text-color;
+}
+
+body {
+  position: relative;
+}
+
+body.backdrop-active {
+  overflow: hidden;
+}
+
+.container-fluid {
+  max-width: 1400px;
+}
+
+.container {
+  max-width: $container-width;
+}
+
+.container-fluid,
+.container {
+  padding-inline: 20px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, .8);
+  transition: all .2s ease;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  overflow: hidden;
+}
+
+.section-title {
+  margin: 0 auto;
+  display: block;
+  width: fit-content;
+  font-size: rem(36px);
+  line-height: rem(44px);
+}
+
+.block-title {
+  text-align: center;
+  font-size: rem(18px);
+  line-height: rem(26px);
+}

@@ -1,9 +1,26 @@
 $sm: 576px;
 $md: 768px;
 $lg: 992px;
-$xl: 1200px;
+$xl: 1180px;
 $xxl: 1400px;
 
-$container-width: 1140px;
+$container-width: $xl;
 
-$base-font: 16px;
+$base-font: 15px;
+$base-font-weight: 400;
+$base-line-height: 23px;
+$base-text-color: rgba(24, 24, 25, 1);
+
+$white: rgba(255,255,255, 1);
+
+$about-section-bg: rgba(251, 251, 251, 1);
+$footer-bg-color: rgba(36, 38, 45, 1);
+$footer-text-color: rgba(201, 203, 208, 1);
+$web-systems-logo-color: rgba(151, 151, 151, 1);
+
+$social-icon-dark-color: rgba(57, 60, 73, 1);
+$social-icon-dark-color-hover: rgba(144, 148, 166, 1);
+$social-icon-light-color: rgba(148, 149, 151, 1);
+$social-icon-light-color-hover: rgba(144, 148, 166, 1);
+
+$lang-link-color: rgba(153, 153, 160, 1);

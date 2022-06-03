@@ -10,6 +10,7 @@ const webpack = require("webpack-stream");
 const ttf2woff = require("gulp-ttf2woff");
 const ttf2woff2 = require("gulp-ttf2woff2");
 const fs = require("fs");
+const fileInclude = require("gulp-file-include");
 
 let sourceDir = "./src/";
 let buildDir = "./dest/";
@@ -19,18 +20,16 @@ const path = {
         html: sourceDir + "index.html",
         scss: sourceDir + "scss/**/*.scss",
         js: sourceDir + "js/**/*.js",
-        img: sourceDir + "img/**/*.{jpg, png, gif, ico, webp}",
+        img: sourceDir + "img/**/*.*",
         svg: sourceDir + "img/svg/*.svg",
         fonts: sourceDir + "fonts/*.ttf",
-    },
-    build: {
+    }, build: {
         html: buildDir,
         css: buildDir + "css/",
         img: buildDir + "img/",
         fonts: buildDir + "fonts/",
         js: buildDir + "js/",
-    },
-    watch: {
+    }, watch: {
         scss: sourceDir + "scss/**/*.scss",
         html: sourceDir + "**/*.html",
         js: sourceDir + "js/**/*.js",
@@ -40,85 +39,61 @@ const path = {
 };
 
 function buildHtml() {
-    return (
-        src(path.src.html)
-            .pipe(
-                htmlmin({
-                    collapseWhitespace: true,
-                    removeComments: true,
-                })
-            )
+    return (src(path.src.html)
+            .pipe(fileInclude({
+                prefix: "@@", basepath: "./src/components",
+            }))
+            .pipe(htmlmin({
+                collapseWhitespace: true, removeComments: true,
+            }))
             .pipe(dest(path.build.html))
-            .pipe(connect.reload())
-    );
+            .pipe(connect.reload()));
 }
 
 function buildStyles() {
-    return (
-        src(path.src.scss)
-            .pipe(
-                sass({
-                    outputStyle: "expanded",
-                })
-            )
-            .pipe(
-                autoprefixer({
-                    overrideBrowserslist: ["last 5 versions"],
-                    cascade: true,
-                })
-            )
+    return (src(path.src.scss)
+            .pipe(sass({
+                outputStyle: "expanded",
+            }))
+            .pipe(autoprefixer({
+                overrideBrowserslist: ["last 5 versions"], cascade: true,
+            }))
             .pipe(rename("style.css"))
             .pipe(dest(path.build.css))
-            .pipe(connect.reload())
-    );
+            .pipe(connect.reload()));
 }
 
 function buildJs() {
     return src(path.src.js)
-        .pipe(
-            webpack({
-                mode: "development",
-                entry: {
-                    app: "./src/js/index.js",
-                },
-                output: {
-                    filename: "script.js",
-                },
-                devtool: "source-map",
-            })
-        )
+        .pipe(webpack({
+            mode: "development", entry: {
+                app: "./src/js/index.js",
+            }, output: {
+                filename: "script.js",
+            }, devtool: "source-map",
+        }))
         .pipe(dest(path.build.js))
         .pipe(connect.reload());
 }
 
 function buildImg() {
-    return (
-        src(path.src.img)
-            .pipe(
-                imagemin({
-                    progressive: true,
-                    svgoPlugins: [{removeViewBox: false}],
-                    interlaced: true,
-                    optimizationLeve: 1,
-                })
-            )
+    return (src(path.src.img)
+            .pipe(imagemin({
+                progressive: true, svgoPlugins: [{removeViewBox: false}], interlaced: true, optimizationLeve: 1,
+            }))
             .pipe(dest(path.build.img))
-            .pipe(connect.reload())
-    );
+            .pipe(connect.reload()));
 }
 
 task("svgSprite", function () {
     return src([path.src.svg])
-        .pipe(
-            svgSprite({
-                mode: {
-                    stack: {
-                        sprite: "../icons/icons.svg",
-                        example: true,
-                    },
+        .pipe(svgSprite({
+            mode: {
+                stack: {
+                    sprite: "../icons/icons.svg", example: true,
                 },
-            })
-        )
+            },
+        }))
         .pipe(dest(path.build.img));
 });
 
@@ -141,15 +116,7 @@ async function fontsStyle() {
                     let fontname = items[i].split(".");
                     fontname = fontname[0];
                     if (c_fontname != fontname) {
-                        fs.appendFile(
-                            sourceDir + "scss/_fonts.scss",
-                            '@include font("' +
-                            fontname +
-                            '", "' +
-                            fontname +
-                            '", "400", "normal");\r\n',
-                            cb
-                        );
+                        fs.appendFile(sourceDir + "scss/_fonts.scss", '@include font("' + fontname + '", "' + fontname + '", "400", "normal");\r\n', cb);
                     }
                     c_fontname = fontname;
                 }
@@ -163,9 +130,7 @@ function cb() {
 
 function startLocalServer() {
     connect.server({
-        root: "dest",
-        port: 8888,
-        livereload: true,
+        root: "dest", port: 8888, livereload: true,
     });
 }
 
@@ -176,21 +141,6 @@ function watchCode() {
     watch(path.watch.img, buildImg);
 }
 
-exports.build = series(
-    buildFonts,
-    fontsStyle,
-    buildStyles,
-    buildHtml,
-    buildJs,
-    buildImg
-);
+exports.build = series(buildFonts, fontsStyle, buildStyles, buildHtml, buildJs, buildImg);
 
-exports.default = series(
-    buildStyles,
-    buildHtml,
-    buildFonts,
-    fontsStyle,
-    buildJs,
-    buildImg,
-    parallel(startLocalServer, watchCode)
-);
+exports.default = series(buildStyles, buildHtml, buildFonts, fontsStyle, buildJs, buildImg, parallel(startLocalServer, watchCode));
