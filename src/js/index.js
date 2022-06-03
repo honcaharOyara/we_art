@@ -20,7 +20,6 @@ if(aboutContentParagraphs.length > 2) {
     for (let i = 0; i < aboutContentParagraphs.length ; i++) {
         if (i > 1) {
             aboutContentParagraphs[i].style.display = 'none';
-            console.log(aboutContentParagraphs[i]);
         }
     }
 
